@@ -717,17 +717,19 @@ function SignupForm({ formRef }) {
       timestamp: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
     };
 
+    // Apps Script with no-cors requires form-encoded data, not JSON
+    const formData = new FormData();
+    Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
+
     try {
       await fetch(APPS_SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", // Apps Script requires no-cors
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        mode: "no-cors",
+        body: formData,
       });
-      // no-cors means we can't read the response, but if no exception = success
       setSubmitted(true);
     } catch (err) {
-      setSubmitError("Something went wrong. Please try again or email us directly.");
+      setSubmitError("Something went wrong. Please try again.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -910,7 +912,7 @@ function Footer() {
       <span style={{ fontSize: "0.78rem", color: "var(--subtle)" }}>© 2025 CreatorMate. All rights reserved.</span>
       <div style={{ display: "flex", gap: 24 }}>
         {["Privacy", "Terms"].map(l => (
-          <a key={l} href="#" style={{ fontSize: "0.78rem", color: "var(--subtle)", textDecoration: "none" }}>{l}</a>
+          <button key={l} onClick={() => {}} style={{ fontSize: "0.78rem", color: "var(--subtle)", textDecoration: "none", background: "none", border: "none", cursor: "pointer", padding: 0 }}>{l}</button>
         ))}
       </div>
       </div>
@@ -924,12 +926,7 @@ export default function App() {
 
   // Trigger fade-up animations after mount
   useEffect(() => {
-    const els = document.querySelectorAll(".fade-up");
-    // Hero elements auto-animate on load
-    const heroEls = document.querySelectorAll(".fade-up:not(.fade-up-d1):not(.fade-up-d2):not(.fade-up-d3):not(.fade-up-d4)");
-    const allHeroEls = document.querySelectorAll("section:first-of-type .fade-up, .fade-up");
-
-    // Manually trigger first 4 hero items
+    // Manually trigger first 6 hero items on load
     setTimeout(() => {
       document.querySelectorAll("section .fade-up").forEach((el, i) => {
         if (i < 6) setTimeout(() => el.classList.add("visible"), i * 80);
