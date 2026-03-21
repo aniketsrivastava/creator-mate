@@ -682,7 +682,7 @@ function SignupForm({ formRef }) {
   const [submitError, setSubmitError] = useState("");
 
   // ✅ Paste your Apps Script Web App URL here after setup
-  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyrSZwxXWiJUraVLev0BFyPrQkmeNkqDpgQABwS8-qCMXDchYGLgQPnklcOW8mslOfN/exec";
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyd6yUi_STVEcXEPg2DzVBZf8jdGWaGRqaaGXLCMNnh1GmY0jM5BvFMdtL1GHlmza1h/exec";
 
   const set = (k, v) => {
     setFields(f => ({ ...f, [k]: v }));
