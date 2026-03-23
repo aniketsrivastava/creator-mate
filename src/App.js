@@ -667,7 +667,7 @@ function BetaOffer({ onCTAClick }) {
 // ─── Signup Form ──────────────────────────────────────────────────────────────
 function SignupForm({ formRef }) {
   const [ref, visible] = useInView();
-  const [fields, setFields] = useState({ name: "", email: "", handle: "", struggle: "", willing: false, budget: "" });
+  const [fields, setFields] = useState({ name: "", email: "", handle: "", struggle: "", budget: "" });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
@@ -710,8 +710,7 @@ function SignupForm({ formRef }) {
       email:     fields.email.trim(),
       handle:    fields.handle.trim(),
       struggle:  fields.struggle.trim() || "—",
-      willing:   fields.willing ? "Yes" : "No",
-      budget:    fields.willing && fields.budget
+      budget:    fields.budget
                    ? budgetOptions.find(b => b.value === fields.budget)?.label || fields.budget
                    : "—",
       timestamp: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
@@ -785,60 +784,43 @@ function SignupForm({ formRef }) {
             </div>
 
             <div>
-              <label className="checkbox-wrap" onClick={() => { set("willing", !fields.willing); if (fields.willing) set("budget", ""); }}>
-                <div className={`checkbox-custom ${fields.willing ? "checked" : ""}`}>
-                  {fields.willing && <Icon.Check />}
-                </div>
-                <span style={{ color: "var(--muted)", fontSize: "0.85rem", lineHeight: 1.5 }}>
-                  I'd be willing to pay if CreatorMate delivers real results for my growth
-                </span>
+              <label style={{ display: "block", fontSize: "0.78rem", letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--subtle)", marginBottom: 10 }}>
+                If CreatorMate delivers results, how much would you pay? <span style={{ opacity: 0.5 }}>(optional)</span>
               </label>
-
-              <div style={{
-                maxHeight: fields.willing ? 200 : 0,
-                opacity: fields.willing ? 1 : 0,
-                overflow: "hidden",
-                transition: "max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease",
-                marginTop: fields.willing ? 16 : 0,
-              }}>
-                <p style={{ fontSize: "0.75rem", letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--subtle)", marginBottom: 10 }}>
-                  What would you be comfortable paying?
-                </p>
-                <div className="grid-budget" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-                  {budgetOptions.map(({ value, label, sublabel, desc }) => {
-                    const selected = fields.budget === value;
-                    return (
-                      <button key={value} type="button"
-                        onClick={() => set("budget", value)}
-                        style={{
-                          background: selected ? "var(--gold-dim)" : "var(--bg3)",
-                          border: `1px solid ${selected ? "rgba(201,168,76,0.45)" : "var(--border)"}`,
-                          borderRadius: 8,
-                          padding: "12px 14px",
-                          cursor: "pointer",
-                          textAlign: "left",
-                          transition: "all 0.18s ease",
-                          transform: selected ? "translateY(-1px)" : "none",
-                          boxShadow: selected ? "0 4px 16px rgba(201,168,76,0.15)" : "none",
-                        }}
-                      >
-                        <div style={{
-                          display: "flex", alignItems: "baseline", gap: 4,
-                          fontFamily: "Fraunces, serif",
-                          fontSize: "0.95rem", fontWeight: 600,
-                          color: selected ? "var(--gold)" : "var(--cream)",
-                          marginBottom: 3,
-                        }}>
-                          {label}
-                          <span style={{ fontFamily: "DM Sans, sans-serif", fontSize: "0.65rem", fontWeight: 400, color: "var(--subtle)" }}>{sublabel}</span>
-                        </div>
-                        <div style={{ fontSize: "0.68rem", letterSpacing: "0.07em", textTransform: "uppercase", color: selected ? "var(--gold)" : "var(--subtle)" }}>
-                          {desc}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+              <div className="grid-budget" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+                {budgetOptions.map(({ value, label, sublabel, desc }) => {
+                  const selected = fields.budget === value;
+                  return (
+                    <button key={value} type="button"
+                      onClick={() => set("budget", selected ? "" : value)}
+                      style={{
+                        background: selected ? "var(--gold-dim)" : "var(--bg3)",
+                        border: `1px solid ${selected ? "rgba(201,168,76,0.45)" : "var(--border)"}`,
+                        borderRadius: 8,
+                        padding: "12px 14px",
+                        cursor: "pointer",
+                        textAlign: "left",
+                        transition: "all 0.18s ease",
+                        transform: selected ? "translateY(-1px)" : "none",
+                        boxShadow: selected ? "0 4px 16px rgba(201,168,76,0.15)" : "none",
+                      }}
+                    >
+                      <div style={{
+                        display: "flex", alignItems: "baseline", gap: 4,
+                        fontFamily: "Fraunces, serif",
+                        fontSize: "0.95rem", fontWeight: 600,
+                        color: selected ? "var(--gold)" : "var(--cream)",
+                        marginBottom: 3,
+                      }}>
+                        {label}
+                        <span style={{ fontFamily: "DM Sans, sans-serif", fontSize: "0.65rem", fontWeight: 400, color: "var(--subtle)" }}>{sublabel}</span>
+                      </div>
+                      <div style={{ fontSize: "0.68rem", letterSpacing: "0.07em", textTransform: "uppercase", color: selected ? "var(--gold)" : "var(--subtle)" }}>
+                        {desc}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
