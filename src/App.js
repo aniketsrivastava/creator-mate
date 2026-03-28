@@ -664,6 +664,177 @@ function BetaOffer({ onCTAClick }) {
   );
 }
 
+// ─── Affiliate Tools Data ─────────────────────────────────────────────────────
+const affiliateTools = [
+  // ── Top 5 shown by default ──
+  {
+    emoji: "🎨",
+    name: "Canva Pro",
+    desc: "Design thumbnails, posts, and brand kits in minutes. The go-to tool for visual creators.",
+    tag: "Most Popular",
+    url: "https://canva.partnerlinks.io/6j59jgga2lpc",
+    color: "rgba(120,220,140,0.12)",
+  },
+  {
+    emoji: "🎵",
+    name: "Epidemic Sound",
+    desc: "Royalty-free music for creators. No copyright strikes, ever. Used by 2M+ creators worldwide.",
+    tag: "Must Have",
+    url: "https://www.epidemicsound.com/referral/",
+    color: "rgba(100,180,255,0.12)",
+  },
+  {
+    emoji: "💰",
+    name: "Razorpay",
+    desc: "Accept payments from brands and fans instantly. The easiest way to get paid as an Indian creator.",
+    tag: "Payments",
+    url: "https://razorpay.com",
+    color: "rgba(100,160,255,0.12)",
+  },
+  {
+    emoji: "📚",
+    name: "Graphy",
+    desc: "Launch your own course or paid community in minutes. Turn your expertise into income.",
+    tag: "Top Pick",
+    url: "https://graphy.com",
+    color: "rgba(255,200,80,0.12)",
+  },
+  {
+    emoji: "✉️",
+    name: "ConvertKit",
+    desc: "Build your email list and own your audience. Never rely on an algorithm again.",
+    tag: "Recurring Income",
+    url: "https://partners.convertkit.com",
+    color: "rgba(255,160,100,0.12)",
+  },
+  // ── Shown after "Show More" ──
+  {
+    emoji: "🌐",
+    name: "Hostinger",
+    desc: "Fast, affordable hosting for your creator website. Get online in minutes.",
+    tag: "Hosting",
+    url: "https://www.hostinger.in/affiliates",
+    color: "rgba(160,220,140,0.12)",
+  },
+  {
+    emoji: "🤝",
+    name: "Winkl",
+    desc: "India's largest creator monetization platform. Get discovered by top brands looking for influencers like you.",
+    tag: "Brand Deals",
+    url: "https://www.winkl.co",
+    color: "rgba(255,140,100,0.12)",
+  },
+  {
+    emoji: "📊",
+    name: "Kofluence",
+    desc: "AI-powered influencer marketing platform. Connect with 300+ brands actively looking for Indian creators.",
+    tag: "Brand Deals",
+    url: "https://www.kofluence.com",
+    color: "rgba(160,120,255,0.12)",
+  },
+  {
+    emoji: "🛍️",
+    name: "Instamojo",
+    desc: "Sell digital products, presets, e-books, and templates directly to your Indian audience.",
+    tag: "Digital Products",
+    url: "https://www.instamojo.com",
+    color: "rgba(255,100,150,0.12)",
+  },
+];
+
+// ─── Recommended Tools Section ────────────────────────────────────────────────
+function ToolsList({ showAll }) {
+  const visible = showAll ? affiliateTools : affiliateTools.slice(0, 5);
+  return (
+    <div style={{ display: "grid", gap: 14 }}>
+      {visible.map(({ emoji, name, desc, tag, url, color }, i) => (
+        <a key={i} href={url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+          <div className="card" style={{ padding: "20px 24px", display: "flex", alignItems: "center", gap: 20 }}>
+            <div style={{
+              width: 46, height: 46, borderRadius: 10, flexShrink: 0,
+              background: color, display: "flex", alignItems: "center",
+              justifyContent: "center", fontSize: "1.4rem",
+            }}>{emoji}</div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
+                <span style={{ fontFamily: "Fraunces, serif", fontSize: "1rem", fontWeight: 600, color: "var(--cream)" }}>{name}</span>
+                <span style={{
+                  fontSize: "0.62rem", fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase",
+                  color: "var(--gold)", background: "var(--gold-dim)", border: "1px solid rgba(201,168,76,0.15)",
+                  borderRadius: 100, padding: "2px 8px", flexShrink: 0,
+                }}>{tag}</span>
+              </div>
+              <p style={{ color: "var(--muted)", fontSize: "0.83rem", lineHeight: 1.5, margin: 0 }}>{desc}</p>
+            </div>
+            <div style={{ color: "var(--gold)", flexShrink: 0 }}><Icon.ArrowRight /></div>
+          </div>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function RecommendedTools({ onCTAClick }) {
+  const [ref, visible] = useInView();
+  const [showAll, setShowAll] = useState(false);
+  return (
+    <section ref={ref} style={{ padding: "100px 24px", background: "var(--bg2)", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }} className="section-pad">
+      <div style={{ maxWidth: 860, margin: "0 auto" }}>
+        <div className={`fade-up ${visible ? "visible" : ""}`} style={{ textAlign: "center", marginBottom: 40 }}>
+          <span className="gold-tag" style={{ display: "inline-flex", marginBottom: 20 }}>Tools We Recommend</span>
+          <h2 className="display" style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 600, letterSpacing: "-0.02em", lineHeight: 1.15, color: "var(--cream)", marginTop: 16, marginBottom: 12 }}>
+            The creator stack that<br />
+            <em style={{ fontStyle: "italic", color: "var(--gold)" }}>actually works.</em>
+          </h2>
+          <p style={{ color: "var(--muted)", fontSize: "0.88rem" }}>
+            Tools we genuinely recommend to every creator. Some are affiliate links — we earn a small commission at no cost to you.
+          </p>
+        </div>
+
+        <div className={`fade-up ${visible ? "visible" : ""}`}>
+          <ToolsList showAll={showAll} />
+        </div>
+
+        {/* Show More / Show Less */}
+        <div style={{ textAlign: "center", marginTop: 20 }}>
+          <button
+            onClick={() => setShowAll(s => !s)}
+            style={{
+              background: "transparent",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              color: "var(--muted)",
+              fontSize: "0.85rem",
+              padding: "10px 24px",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              transition: "border-color 0.2s, color 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)"; e.currentTarget.style.color = "var(--gold)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}
+          >
+            {showAll
+              ? <>Show Less ↑</>
+              : <>Show {affiliateTools.length - 5} More Tools ↓</>
+            }
+          </button>
+        </div>
+
+        <div className={`fade-up ${visible ? "visible" : ""}`} style={{ textAlign: "center", marginTop: 48 }}>
+          <p style={{ color: "var(--subtle)", fontSize: "0.85rem", marginBottom: 20 }}>
+            Want AI to help you use all these tools smarter?
+          </p>
+          <button className="btn-primary" onClick={onCTAClick}>
+            Get Early Access to CreatorMate <Icon.ArrowRight />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Signup Form ──────────────────────────────────────────────────────────────
 function SignupForm({ formRef }) {
   const [ref, visible] = useInView();
@@ -735,15 +906,63 @@ function SignupForm({ formRef }) {
     }
   };
 
+  const [showAllTools, setShowAllTools] = useState(false);
+
   if (submitted) return (
-    <section id="signup" ref={formRef} style={{ padding: "100px 24px", maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-      <div style={{ fontSize: "3rem", marginBottom: 24 }}>🎉</div>
-      <h2 className="display" style={{ fontSize: "2.4rem", fontWeight: 600, color: "var(--cream)", letterSpacing: "-0.02em", marginBottom: 16 }}>
-        You're in the top 10%.
-      </h2>
-      <p style={{ color: "var(--muted)", fontSize: "1rem" }}>
-        We'll reach out soon with your beta access. Get ready to grow.
-      </p>
+    <section id="signup" ref={formRef} style={{ padding: "80px 24px" }}>
+      <div style={{ maxWidth: 720, margin: "0 auto" }}>
+        {/* Thank you header */}
+        <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div style={{ fontSize: "3rem", marginBottom: 20 }}>🎉</div>
+          <h2 className="display" style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 600, color: "var(--cream)", letterSpacing: "-0.02em", marginBottom: 16 }}>
+            You're in the top 10%.
+          </h2>
+          <p style={{ color: "var(--muted)", fontSize: "1rem", lineHeight: 1.7 }}>
+            We'll reach out soon with your beta access.<br />
+            While you wait — here are tools top creators swear by.
+          </p>
+        </div>
+
+        {/* Affiliate tools */}
+        <div style={{ marginBottom: 24 }}>
+          <span className="gold-tag" style={{ display: "inline-flex", marginBottom: 16 }}>Tools We Recommend</span>
+          <p style={{ color: "var(--subtle)", fontSize: "0.8rem", marginBottom: 20 }}>
+            These are tools we genuinely recommend. Some links are affiliate links — we may earn a small commission at no extra cost to you.
+          </p>
+        </div>
+
+        <ToolsList showAll={showAllTools} />
+
+        <div style={{ textAlign: "center", marginTop: 16, marginBottom: 40 }}>
+          <button
+            onClick={() => setShowAllTools(s => !s)}
+            style={{
+              background: "transparent",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              color: "var(--muted)",
+              fontSize: "0.85rem",
+              padding: "10px 24px",
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              transition: "border-color 0.2s, color 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.4)"; e.currentTarget.style.color = "var(--gold)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}
+          >
+            {showAllTools
+              ? <>Show Less ↑</>
+              : <>Show {affiliateTools.length - 5} More Tools ↓</>
+            }
+          </button>
+        </div>
+
+        <p style={{ textAlign: "center", color: "var(--subtle)", fontSize: "0.75rem", marginTop: 8 }}>
+          🔒 Your spot is confirmed. We'll email you when CreatorMate is ready.
+        </p>
+      </div>
     </section>
   );
 
@@ -932,6 +1151,7 @@ export default function App() {
         <Features />
         <ForCreators />
         <BetaOffer onCTAClick={scrollToForm} />
+        <RecommendedTools onCTAClick={scrollToForm} />
         <SignupForm formRef={formRef} />
         <FinalCTA onCTAClick={scrollToForm} />
       </main>
